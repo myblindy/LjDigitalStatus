@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="LjDigitalStatus.BitControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LjDigitalStatus" PreviewMouseDown="UserControl_PreviewMouseDown">
+    <UserControl.Resources>
+        <local:DIBackgroundBrushConverter x:Key="DIBackgroundBrushConverter"/>
+        <local:DIForegroundConverter x:Key="DIForegroundConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="7">
+        <Rectangle Width="80" Height="200" Stroke="Black" StrokeThickness="2">
+            <Rectangle.Fill>
+                <SolidColorBrush x:Name="RectBrush" Color="DarkRed" />
+            </Rectangle.Fill>
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOn}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="LimeGreen" Duration="0:0:0.2"
+                                                        Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="DarkRed" Duration="0:0:0.2"
+                                                        Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
+        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                                   Foreground="{Binding IsOn, Converter={StaticResource DIForegroundConverter}}" FontSize="20"/>
+    </Grid>
+</UserControl>

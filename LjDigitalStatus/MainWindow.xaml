@@ -1,0 +1,42 @@
+﻿<Window x:Class="LjDigitalStatus.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LjDigitalStatus"
+        x:Name="RootWindow"
+        Title="LJ Digital Status" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <local:BoolRadioConverter x:Key="BoolRadioConverter" />
+        <local:BoolRadioConverter x:Key="InverseBoolRadioConverter" Inverse="True" />
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical">
+        <ItemsControl ItemsSource="{Binding DigitalInputs}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" MaxWidth="800" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:BitControl SelfEditable="{Binding AutomaticMode, ElementName=RootWindow, Converter={StaticResource InverseBoolRadioConverter}}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel Orientation="Horizontal">
+            <local:BitControl DataContext="{Binding ControlDigitalInput}" SelfEditable="{Binding AutomaticMode, ElementName=RootWindow, Converter={StaticResource InverseBoolRadioConverter}}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <RadioButton Grid.Row="1" GroupName="1" IsChecked="{Binding AutomaticMode, Converter={StaticResource BoolRadioConverter}}">Automatic</RadioButton>
+                <RadioButton Grid.Row="2" GroupName="2" IsChecked="{Binding AutomaticMode, Converter={StaticResource InverseBoolRadioConverter}}">Manual</RadioButton>
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</Window>
